@@ -1,7 +1,7 @@
 ---
 
 #dependencies: []
-dependencies: 
+dependencies:
   - { role: geerlingguy.apache }
 
 galaxy_info:
@@ -27,10 +27,10 @@ galaxy_info:
   - system
 
 ansigenome_info:
-  galaxy_id: '2535'
+  galaxy_id: '2538'
   galaxy_user: 'alban.andrieu'
   galaxy_name: 'awstats'
-  
+
   travis: True
 
   authors:
@@ -39,7 +39,7 @@ ansigenome_info:
       email: 'alban.andrieu@free.fr'
       twitter: 'AlbanAndrieu'
       github: 'AlbanAndrieu'
-      
+
   synopsis: |
     Ensures that mod awstats is installed (using apt) on apache.
 
