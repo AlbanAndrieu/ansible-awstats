@@ -1,0 +1,44 @@
+---
+
+- name: awstats | Install apache awstats for monitoring
+  apt: pkg={{ item }} update_cache=yes state={{ awstats_pkg_state }}
+  sudo: yes
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_awstats_enabled
+  tags: package
+  with_items:
+   - awstats
+   - libgeo-ipfree-perl
+
+- name: awstats | Add apache awstats for monitoring configuration
+  template:
+    src: "awstats.conf.j2"
+    dest: "{{ awstats_conf_path }}/{{ awstats_conf_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  sudo: yes
+#  notify: restart apache
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_awstats_enabled
+
+- name: apache | Enable some required modules (rewrite)
+  action: command a2enmod rewrite vhost_alias cgi
+  tags: apache
+
+- name: apache | Add apache awstats vhosts configuration.
+  template:
+    src: "apache-awstats.conf.j2"
+    dest: "{{ apache_conf_path }}/sites-available/awstats.conf"
+    owner: root
+    group: root
+    mode: 0644
+  sudo: yes
+#  notify: restart apache
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts
+
+- name: apache | Enable the awstats site
+  action: command a2ensite awstats
+  sudo: yes
+  ignore_errors: yes
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts  
+  tags: apache
+

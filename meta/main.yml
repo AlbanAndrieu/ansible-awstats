@@ -1,0 +1,50 @@
+---
+
+#dependencies: []
+dependencies: 
+  - { role: geerlingguy.apache }
+
+galaxy_info:
+  author: Alban Andrieu
+  description: Ansible role to install awstats on apache
+  company: Nabla
+  license: GPLv3
+  min_ansible_version: 1.6.3
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+    - lucid
+    - maverick
+    - natty
+    - oneiric
+    - precise
+    - quantal
+    - raring
+    - saucy
+    - trusty
+  categories:
+  - system
+
+ansigenome_info:
+  galaxy_id: '2535'
+  galaxy_user: 'alban.andrieu'
+  galaxy_name: 'awstats'
+  
+  travis: True
+
+  authors:
+    - name:  'Alban Andrieu'
+      url: 'fr.linkedin.com/in/nabla/'
+      email: 'alban.andrieu@free.fr'
+      twitter: 'AlbanAndrieu'
+      github: 'AlbanAndrieu'
+      
+  synopsis: |
+    Ensures that mod awstats is installed (using apt) on apache.
+
+  usage: |
+    Describe how to use in more detail...
+
+  #custom: |
+  #  Any custom output you want after the usage section..

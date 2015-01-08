@@ -1,0 +1,21 @@
+---
+language: python
+python: "2.7"
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq python-apt python-pycurl
+install:
+  # Install Ansible.
+  - pip install ansible
+
+  # Add ansible.cfg to pick up roles path.
+  #- "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+
+  # Install dependencies.
+  - git clone https://github.com/geerlingguy/ansible-role-apache.git geerlingguy.apache
+script:
+  - ansible --version
+  - export ANSIBLE_ROLES_PATH="../"
+#  - echo localhost > inventory
+  - ansible-playbook -i hosts --syntax-check awstats.yml
+  - ansible-playbook -i hosts --connection=local --sudo -vvvv awstats.yml
