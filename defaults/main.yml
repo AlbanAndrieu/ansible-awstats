@@ -14,11 +14,13 @@ awstats_conf_path: "/etc/awstats"
 #awstats_conf_file: "awstats.conf.local"
 awstats_domain: "home.nabla.mobi"
 awstats_conf_file: "awstats.{{ awstats_sitedomain }}.conf"
-awstats_logfile: "{{ apache_log_path }}/access.log"
+#awstats_logfile: "{{ apache_log_path }}/other_vhosts_access.log"
+#awstats_logfile: "zip -cd {{ apache_log_path }}/other_vhosts_access.log.*.gz |"
+awstats_logfile: "zip -cd {{ apache_log_path }}/other_vhosts_access.log.*.gz |"
 awstats_sitedomain: "{{ awstats_domain }}"
 
 apache_awstats_enabled: yes
 apache_create_vhosts: yes
 
 apache_vhosts_awstats:
-  - {servername: "localhost", serveradmin: "alban.andrieu@nabla.mobi", documentroot: "/usr/lib/cgi-bin"} 
+  - {servername: "localhost", serveradmin: "alban.andrieu@nabla.mobi", documentroot: "/usr/lib/cgi-bin"}

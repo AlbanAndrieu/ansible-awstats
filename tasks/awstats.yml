@@ -9,6 +9,8 @@
    - awstats
    - libgeo-ipfree-perl
 
+# cpan -i Geo::IP
+
 - name: awstats | Add apache awstats for monitoring configuration
   template:
     src: "awstats.conf.j2"
@@ -39,6 +41,6 @@
   action: command a2ensite awstats
   sudo: yes
   ignore_errors: yes
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts  
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts
   tags: apache
 
