@@ -2,7 +2,7 @@
 
 - name: awstats | Install apache awstats for monitoring
   apt: pkg={{ item }} update_cache=yes state={{ awstats_pkg_state }}
-  sudo: yes
+  become: yes
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_awstats_enabled
   tags: package
   with_items:
@@ -18,12 +18,13 @@
     owner: root
     group: root
     mode: 0644
-  sudo: yes
+  become: yes
 #  notify: restart apache
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_awstats_enabled
 
 - name: apache | Enable some required modules (rewrite)
-  action: command a2enmod rewrite vhost_alias cgi
+  command: a2enmod rewrite vhost_alias cgi
+  become: yes  
   tags: apache
 
 - name: apache | Add apache awstats vhosts configuration.
@@ -33,13 +34,13 @@
     owner: root
     group: root
     mode: 0644
-  sudo: yes
+  become: yes
 #  notify: restart apache
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts
 
 - name: apache | Enable the awstats site
-  action: command a2ensite awstats
-  sudo: yes
+  command: a2ensite awstats
+  become: yes
   ignore_errors: yes
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts
   tags: apache
