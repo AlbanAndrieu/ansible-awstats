@@ -10,6 +10,29 @@
    - libgeo-ipfree-perl
 
 # cpan -i Geo::IP
+#sudo perl -MCPAN -e "install Geo::IP"
+#sudo perl -MCPAN -e "install Net::XWhois"
+#sudo perl -MCPAN -e "install Net::IP"
+#sudo perl -MCPAN -e "install Net::DNS"
+#sudo perl -MCPAN -e "install Encode"
+#sudo perl -MCPAN -e "install URI::Escape"
+
+- name: awstats | Install cpan perl modules needed by GeoIP
+  shell: "yes y | cpan -f {{ item }}"
+  with_items:
+#    - Geo::IPfree
+    - Geo::IP::PurePerl
+    - Geo::IP
+    - Net::IP
+    - Net::DNS
+    - Net::XWhois
+    - Encode
+    - URI::Escape
+  changed_when: false
+  become: true
+  ignore_errors: true
+  
+# See https://www.maxmind.com/en/geoip2-country-database  
 
 - name: awstats | Add apache awstats for monitoring configuration
   template:
@@ -19,7 +42,6 @@
     group: root
     mode: 0644
   become: yes
-#  notify: restart apache
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_awstats_enabled
 
 - name: apache | Enable some required modules (rewrite)
@@ -35,7 +57,7 @@
     group: root
     mode: 0644
   become: yes
-#  notify: restart apache
+
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts
 
 - name: apache | Enable the awstats site
@@ -44,4 +66,4 @@
   ignore_errors: yes
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and apache_create_vhosts
   tags: apache
-
+#  notify: restart apache

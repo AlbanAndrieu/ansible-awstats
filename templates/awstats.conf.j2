@@ -1,4 +1,4 @@
-# AWSTATS CONFIGURE FILE 7.1
+# AWSTATS CONFIGURE FILE 7.3
 #-----------------------------------------------------------------------------
 # Copy this file into awstats.www.mydomain.conf and edit this new config file
 # to setup AWStats (See documentation in docs/ directory).
@@ -10,7 +10,6 @@
 # Note that environment variable AWSTATS_CURRENT_CONFIG is always defined with
 # the config value in an AWStats running session and can be used like others.
 #-----------------------------------------------------------------------------
-# $Revision: 1.355 $ - $Author: eldy $ - $Date: 2013/02/10 15:39:22 $
 
 
 
@@ -201,7 +200,7 @@ DNSLookup=1
 # Example: "C:/awstats_data_dir"
 # Default: "."          (means same directory as awstats.pl)
 #
-DirData="/var/lib/awstats"
+DirData=/usr/share/awstats
 
 
 # Relative or absolute web URL of your awstats cgi-bin directory.
@@ -608,6 +607,16 @@ ValidHTTPCodes="200 304"
 # Default: "1 250"
 #
 ValidSMTPCodes="1 250"
+
+
+# By default, AWStats only records info on 404 'Document Not Found' errors.
+# At the cost of additional processing time, further info pages can be made
+# available by adding codes below.
+# Change : Effective for new updates only
+# Example: "403 404"
+# Default: "404"
+#
+TrapInfosForHTTPErrorCodes = "400 403 404"
 
 
 # Some web servers on some Operating systems (IIS-Windows) consider that a
@@ -1071,6 +1080,11 @@ ShowMiscStats=a
 # Default: 1, Possible column codes: None
 ShowHTTPErrorsStats=1
 
+# Show http error page details
+# Context: Web, Streaming
+# Default: R, Possible column codes: RH
+ShowHTTPErrorsPageDetail=R
+
 # Show smtp errors chart (For use when analyzing mail log files)
 # Context: Mail
 # Default: 0, Possible column codes: None
@@ -1288,7 +1302,7 @@ color_x="C1B2E2"				# Background color for number of exit pages (Default = "C1B2
 # DESCRIPTION: Add tooltips pop-up help boxes to HTML report pages.
 # NOTE: This will increased HTML report pages size, thus server load and bandwidth.
 #
-LoadPlugin="tooltips"
+#LoadPlugin="tooltips"
 
 # PLUGIN: DecodeUTFKeys
 # REQUIRED MODULES: Encode and URI::Escape
@@ -1415,7 +1429,7 @@ LoadPlugin="graphgooglechartapi"
 # module, so install it from elsewhere (from www.cpan.org for example).
 # This plugin reduces AWStats speed by up to 10% !
 #
-LoadPlugin="geoipfree"
+#LoadPlugin="geoipfree"
 
 # MAXMIND GEO IP MODULES: Please see documentation for notes on all Maxmind modules
 
@@ -1426,7 +1440,17 @@ LoadPlugin="geoipfree"
 # table with country name
 # Replace spaces in the path of geoip data file with string "%20".
 #
-#LoadPlugin="geoip GEOIP_STANDARD /usr/share/GeoIP/GeoIP.dat"
+LoadPlugin="geoip GEOIP_STANDARD /usr/share/GeoIP/GeoIP.dat"
+
+# PLUGIN: GeoIP6
+# REQUIRED MODULES: Geo::IP or Geo::IP::PurePerl (from Maxmind, version >= 1.40)
+# PARAMETERS: [GEOIP_STANDARD | GEOIP_MEMORY_CACHE] [/pathto/geoipv6.dat[+/pathto/override.txt]]
+# DESCRIPTION: Builds a country chart and adds an entry to the hosts
+# table with country name
+# works with IPv4 and also IPv6 addresses
+# Replace spaces in the path of geoip data file with string "%20".
+#
+#LoadPlugin="geoip6 GEOIP_STANDARD /usr/share/GeoIP/GeoIPv6.dat
 
 # PLUGIN: GeoIP_City_Maxmind
 # REQUIRED MODULES: Geo::IP or Geo::IP::PurePerl (from Maxmind)
@@ -1446,7 +1470,7 @@ LoadPlugin="geoipfree"
 # the parameter string and the report page will include the link with the full AS number at the end.
 # Replace spaces in the path of geoip data file with string "%20".
 #
-#LoadPlugin="geoip_asn_maxmind GEOIP_STANDARD /usr/local/geoip.dat+http://enc.com.au/itools/aut-num.php?autnum="
+#LoadPlugin="geoip_asn_maxmind GEOIP_STANDARD /usr/local/geoip.dat+http://enc.com.au/itools/autnum.php?asn="
 
 # PLUGIN: GeoIP_Region_Maxmind
 # REQUIRED MODULES: Geo::IP or Geo::IP::PurePerl (from Maxmind)
@@ -1555,5 +1579,4 @@ ExtraTrackedRowsLimit=500
 #
 
 Include "/etc/awstats/awstats.conf.local"
-
 
