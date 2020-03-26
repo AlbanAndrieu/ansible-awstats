@@ -2,7 +2,7 @@
 # Handler to handle common notifications. Handlers are called by other plays.
 # See http://ansible.cc/docs/playbooks.html for more information about handlers.
   
-- name: apache restart
-  service: name=apache2 state=restarted
-  sudo: yes
-  
+- name: restart apache
+  service:
+    name: "{{ apache_service }}"
+    state: "{{ apache_restart_state }}"
